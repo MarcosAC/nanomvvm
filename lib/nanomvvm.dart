@@ -1,5 +1,4 @@
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+library nanomvvm;
+
+export 'src/nanomvvm_view_model.dart';
+export 'src/nanomvvm_view.dart';
