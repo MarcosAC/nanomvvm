@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nanomvvm/nanomvvm.dart'; // Importa sua lib NanoMVVM
+import 'package:nanomvvm/nanomvvm.dart';
 
 /// --- MODEL ---
 /// Representa a estrutura de dados para um item simples.
@@ -15,7 +15,7 @@ class Item {
 /// Gerencia o estado e a lógica da UI para um único Item.
 /// Estende [NanoMvvmViewModel] da sua lib para notificação de mudanças.
 class ItemViewModel extends NanoMvvmViewModel {
-  final Item _item; // O modelo de dados que este ViewModel representa
+  final Item _item;
 
   ItemViewModel(this._item);
 
@@ -26,10 +26,10 @@ class ItemViewModel extends NanoMvvmViewModel {
   /// Método para alternar o estado de seleção do item.
   /// Notifica a View da mudança usando [notifyListeners()].
   void toggleSelection() {
-    isLoading = true; // Ativa o indicador de carregamento
+    isLoading = true;
     Future.delayed(const Duration(seconds: 1), () {
       _item.isSelected = !_item.isSelected;
-      isLoading = false; // Desativa o indicador de carregamento (notifyListeners é chamado pelo setter)
+      isLoading = false;
     });
   }
 
@@ -37,35 +37,34 @@ class ItemViewModel extends NanoMvvmViewModel {
   /// Chamado uma vez quando o ViewModel é associado à View.
   @override
   void init() {
-    super.init(); // É importante chamar o super.init()
-    print('ItemViewModel para "${_item.name}" inicializado com NanoMVVM!');
+    super.init();     
+    debugPrint('ItemViewModel para "${_item.name}" inicializado com NanoMVVM!');
   }
 
   /// Método [dispose()] do [NanoMvvmViewModel] para limpeza.
   /// Chamado quando o ViewModel não é mais necessário.
   @override
   void dispose() {
-    print('ItemViewModel para "${_item.name}" descartado com NanoMVVM!');
-    super.dispose(); // É importante chamar o super.dispose()
+    debugPrint('ItemViewModel para "${_item.name}" descartado com NanoMVVM!');    
+    super.dispose();
   }
 }
 
 /// --- VIEW ---
 /// Representa a interface do usuário para um item.
 /// Estende [NanoMvvmView] da sua lib, conectando-se ao [ItemViewModel].
-class ItemView extends NanoMvvmView<ItemViewModel> {
-  const ItemView({Key? key, required ItemViewModel viewModel})
-      : super(key: key, viewModel: viewModel);
+class ItemView extends NanoMvvmView<ItemViewModel> {  
+  const ItemView({super.key, required super.viewModel});
 
   /// Retorna a instância do [NanoMvvmViewState] que gerenciará o estado da View.
   @override
-  _ItemViewBinding createState() => _ItemViewBinding();
+  ItemViewBinding createState() => ItemViewBinding();
 }
 
 /// --- BINDING (State da View) ---
 /// A classe que faz a ligação entre a [ItemView] e o [ItemViewModel].
 /// Estende [NanoMvvmViewState] da sua lib, que automatiza a notificação e reconstrução.
-class _ItemViewBinding extends NanoMvvmViewState<ItemViewModel> {
+class ItemViewBinding extends NanoMvvmViewState<ItemViewModel> {
   /// Constrói a interface do usuário usando os dados do [viewModel].
   /// Este método é reconstruído automaticamente quando o ViewModel notifica mudanças.
   @override
@@ -74,8 +73,7 @@ class _ItemViewBinding extends NanoMvvmViewState<ItemViewModel> {
       color: viewModel.isItemSelected ? Colors.lightBlue[100] : Colors.white,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: Text(viewModel.itemName),
-        // O trailing mostrará um CircularProgressIndicator se isLoading for true
+        title: Text(viewModel.itemName),        
         trailing: viewModel.isLoading
             ? const SizedBox(
                 width: 20,
@@ -85,8 +83,7 @@ class _ItemViewBinding extends NanoMvvmViewState<ItemViewModel> {
             : Checkbox(
                 value: viewModel.isItemSelected,
                 onChanged: (bool? value) => viewModel.toggleSelection(),
-              ),
-        // Ao tocar na lista, o método toggleSelection do ViewModel é chamado
+              ),        
         onTap: viewModel.toggleSelection,
       ),
     );
@@ -95,13 +92,11 @@ class _ItemViewBinding extends NanoMvvmViewState<ItemViewModel> {
 
 /// --- PONTO DE ENTRADA DA APLICAÇÃO ---
 /// Função principal que executa o aplicativo Flutter.
-void main() {
-  // Cria instâncias dos Modelos
+void main() {  
   final item1 = Item(name: 'Comprar Leite', isSelected: false);
   final item2 = Item(name: 'Pagar Contas', isSelected: true);
   final item3 = Item(name: 'Estudar Flutter', isSelected: false);
-
-  // Cria instâncias dos ViewModels, passando os Modelos
+  
   final itemViewModel1 = ItemViewModel(item1);
   final itemViewModel2 = ItemViewModel(item2);
   final itemViewModel3 = ItemViewModel(item3);
@@ -118,8 +113,7 @@ void main() {
           title: const Text('Lista de Tarefas (NanoMVVM)'),
         ),
         body: ListView(
-          children: [
-            // Usa sua NanoMvvmView para cada item, passando o ViewModel correspondente
+          children: [            
             ItemView(viewModel: itemViewModel1),
             ItemView(viewModel: itemViewModel2),
             ItemView(viewModel: itemViewModel3),
