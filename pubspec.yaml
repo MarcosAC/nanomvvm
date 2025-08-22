@@ -1,7 +1,9 @@
-name: nanomvvm # Renomeado para nanomvvm
-description: A minimalist MVVM library for Flutter, inspired by .NET BindingContext.
+name: nanomvvm
+description: A minimalist MVVM library for Flutter, inspired by .NET BindingContext, offering a clear and reactive architecture for your applications.
 version: 0.0.1
-homepage: https://github.com/your_username/nanomvvm # Ajuste para o seu repositório
+homepage: https://github.com/MarcosAC/nanomvvm
+repository: https://github.com/MarcosAC/nanomvvm
+issue_tracker: https://github.com/MarcosAC/nanomvvm/issues
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -15,5 +17,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-# publish_to: 'none' # Remova esta linha se for publicar
